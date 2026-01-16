@@ -16,6 +16,7 @@ export const useStreamPlayer = (
   };
 
   const play = () => {
+    console.log("PLAY");
     if (events.length === 0) {
       return;
     }
