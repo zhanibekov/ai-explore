@@ -1,3 +1,4 @@
+"use client";
 import { useEffect, useState } from "react";
 import { parseVegaFromStream } from "../utils/parseVegaFromStream";
 import { validateVegaSpec } from "../utils/validateVegaSpec";
@@ -26,6 +27,8 @@ export const useVegaSpec = (streamedText: string) => {
       setError(validationError);
       return;
     }
+    setSpec(candidateSpec);
+    setError(null);
   }, [streamedText]);
 
   return { spec, error };

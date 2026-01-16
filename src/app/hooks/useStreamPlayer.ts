@@ -1,3 +1,4 @@
+"use client";
 import { useRef, useState } from "react";
 import { StreamEvent } from "../types/stream";
 import { STATUSES } from "../constants/statuses";

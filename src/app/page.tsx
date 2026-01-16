@@ -4,9 +4,23 @@ import { parseJsonl } from "./utils/parseJsonl";
 import { StreamEvent } from "./types/stream";
 import { useStreamPlayer } from "./hooks/useStreamPlayer";
 import { STATUSES } from "./constants/statuses";
+import { useVegaSpec } from "./hooks/useVegaSpec";
+import { chartData } from "./constants/chartData";
+import { VegaChart } from "./components/charts/VegaChart";
 export default function Home() {
   const [events, setEvents] = useState<StreamEvent[]>([]);
   const [streamedText, setStreamedText] = useState("");
+  const { spec, error } = useVegaSpec(streamedText);
+
+  const finalSpec = spec
+    ? JSON.parse(
+        JSON.stringify({
+          ...spec,
+          data: { values: chartData },
+        })
+      )
+    : null;
+
   const onEvent = (event: StreamEvent) => {
     if (event.event === "token") {
       setStreamedText((prev) => prev + event.data.delta);
@@ -53,6 +67,14 @@ export default function Home() {
         <section className="border rounded p-3">
           <h2>Streaming output</h2>
           <pre className="whitespace-pre-wrap text-sm">{streamedText}</pre>
+        </section>
+        <section className="border rounded p-3">
+          <h2>Vega chart preview</h2>
+          {error ? (
+            <div className="text-red-500">Error: {error}</div>
+          ) : (
+            <VegaChart spec={finalSpec} />
+          )}
         </section>
       </div>
     </div>
