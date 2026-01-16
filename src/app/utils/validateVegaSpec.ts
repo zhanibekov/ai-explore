@@ -1,4 +1,4 @@
-function parseVegaSpec(spec: unknown): string | null {
+export function validateVegaSpec(spec: unknown): string | null {
   if (typeof spec !== "object" || spec === null) {
     return "Spec is not an object.";
   }

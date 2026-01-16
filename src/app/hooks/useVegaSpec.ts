@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
 import { parseVegaFromStream } from "../utils/parseVegaFromStream";
+import { validateVegaSpec } from "../utils/validateVegaSpec";
 
-const useVegaSpec = (streamedText: string) => {
+export const useVegaSpec = (streamedText: string) => {
   const [spec, setSpec] = useState<unknown | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    if (!streamedText) {
+    if (!streamedText.trim()) {
       setSpec(null);
       setError(null);
       return;
@@ -18,5 +19,14 @@ const useVegaSpec = (streamedText: string) => {
       setError(null);
       return;
     }
+
+    const validationError = validateVegaSpec(candidateSpec);
+    if (validationError) {
+      setSpec(null);
+      setError(validationError);
+      return;
+    }
   }, [streamedText]);
+
+  return { spec, error };
 };
