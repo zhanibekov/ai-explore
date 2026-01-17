@@ -1,4 +1,4 @@
-<img width="465" height="424" alt="изображение" src="https://github.com/user-attachments/assets/52bc7151-9a60-482c-8526-f97a02757114" />AI Explore — Frontend Test Task
+AI Explore — Frontend Test Task
 
 Одностраничное приложение для эмуляции LLM streaming (SSE) и визуализации Vega-Lite графиков на основе JSON, полученного по частям.
 
@@ -49,6 +49,8 @@ vega-embed
 Tailwind CSS
 
 Backend не используется.
+
+<img width="465" height="424" alt="изображение" src="https://github.com/user-attachments/assets/52bc7151-9a60-482c-8526-f97a02757114" />
 
 
 🧠 Как работает стриминг
