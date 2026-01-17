@@ -1,4 +1,4 @@
-AI Explore — Frontend Test Task
+<img width="465" height="424" alt="изображение" src="https://github.com/user-attachments/assets/52bc7151-9a60-482c-8526-f97a02757114" />AI Explore — Frontend Test Task
 
 Одностраничное приложение для эмуляции LLM streaming (SSE) и визуализации Vega-Lite графиков на основе JSON, полученного по частям.
 
@@ -50,24 +50,6 @@ Tailwind CSS
 
 Backend не используется.
 
-📁 Структура проекта
-src/app
-├── components
-│ └── charts
-│ └── VegaChart.tsx
-├── constants
-│ ├── chartData.ts
-│ └── statuses.ts
-├── hooks
-│ ├── useStreamPlayer.ts
-│ └── useVegaSpec.ts
-├── types
-│ └── stream.ts
-├── utils
-│ ├── parseJsonl.ts
-│ ├── parseVegaFromStream.ts
-│ └── validateVegaSpec.ts
-├── page.tsx
 
 🧠 Как работает стриминг
 
