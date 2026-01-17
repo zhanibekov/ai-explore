@@ -1,36 +1,141 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+AI Explore — Frontend Test Task
 
-## Getting Started
+Одностраничное приложение для эмуляции LLM streaming (SSE) и визуализации Vega-Lite графиков на основе JSON, полученного по частям.
 
-First, run the development server:
+Проект демонстрирует работу со стримингом, устойчивость к ошибкам и рендеринг графиков без backend.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+🚀 Функциональность
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Загрузка .jsonl файла с SSE-событиями
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Эмуляция LLM streaming с задержкой 50–150 мс
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Постепенный вывод текста (Streaming output)
 
-## Learn More
+Автоматическое извлечение Vega JSON из текста
 
-To learn more about Next.js, take a look at the following resources:
+Валидация Vega spec (mark, encoding)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Рендер Vega-Lite графика
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Устойчивость к повреждённым данным
 
-## Deploy on Vercel
+Управление воспроизведением (Play / Stop)
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Отображение статуса: idle / streaming / done / error
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+🧩 Формат входных данных
+
+Каждая строка в .jsonl файле — одно SSE-событие:
+
+{"event":"token","data":{"delta":"text chunk"}}
+{"event":"done","data":{}}
+{"event":"error","data":{"message":"error text"}}
+
+token.delta — часть ответа LLM, которая может содержать куски Vega JSON.
+
+🛠 Используемые технологии
+
+React
+
+Next.js (App Router)
+
+TypeScript
+
+Vega-Lite
+
+vega-embed
+
+Tailwind CSS
+
+Backend не используется.
+
+📁 Структура проекта
+src/app
+├── components
+│ └── charts
+│ └── VegaChart.tsx
+├── constants
+│ ├── chartData.ts
+│ └── statuses.ts
+├── hooks
+│ ├── useStreamPlayer.ts
+│ └── useVegaSpec.ts
+├── types
+│ └── stream.ts
+├── utils
+│ ├── parseJsonl.ts
+│ ├── parseVegaFromStream.ts
+│ └── validateVegaSpec.ts
+├── page.tsx
+
+🧠 Как работает стриминг
+
+.jsonl файл парсится в массив событий
+
+useStreamPlayer проигрывает события по одному с таймером
+
+token.delta постепенно склеивается в streamedText
+
+useVegaSpec реагирует на изменения текста:
+
+извлекает Vega JSON
+
+пытается распарсить
+
+валидирует (mark, encoding)
+
+При успешной валидации график рендерится через vega-embed
+
+Ошибки парсинга или битые данные не приводят к падению приложения.
+
+📊 Данные для графика
+
+Для визуализации используются захардкоженные данные:
+
+[
+{ region: "Almaty", revenue: 120 },
+{ region: "Astana", revenue: 90 },
+{ region: "Shymkent", revenue: 70 }
+]
+
+Они добавляются в Vega spec перед рендером без мутации исходного объекта.
+
+📊 Данные для графика
+
+Для визуализации используются захардкоженные данные:
+
+[
+{ region: "Almaty", revenue: 120 },
+{ region: "Astana", revenue: 90 },
+{ region: "Shymkent", revenue: 70 }
+]
+
+Они добавляются в Vega spec перед рендером без мутации исходного объекта.
+
+🎥 Демо
+
+Видео-демонстрация работы приложения:
+[(добавить ссылку на Loom)](https://www.loom.com/share/86b74a410d7f44c4819a2b24f8d26218)
+
+✅ Критерии задания
+
+Корректная обработка LLM streaming — ✅
+
+Работа с Vega spec — ✅
+
+Устойчивость к ошибкам — ✅
+
+Читаемость и структура кода — ✅
+
+📝 Примечания
+
+Проект специально устойчив к:
+
+неполным JSON
+
+повреждённым SSE-событиям
+
+ошибкам парсинга Vega spec
+
+Это соответствует реальному поведению LLM streaming.
